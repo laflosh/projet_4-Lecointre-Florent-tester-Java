@@ -28,18 +28,22 @@ public class ParkingDataBaseIT {
 
     @BeforeAll
     private static void setUp() throws Exception{
+    	
         parkingSpotDAO = new ParkingSpotDAO();
         parkingSpotDAO.dataBaseConfig = dataBaseTestConfig;
         ticketDAO = new TicketDAO();
         ticketDAO.dataBaseConfig = dataBaseTestConfig;
         dataBasePrepareService = new DataBasePrepareService();
+        
     }
 
     @BeforeEach
     private void setUpPerTest() throws Exception {
+    	
         when(inputReaderUtil.readSelection()).thenReturn(1);
         when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
         dataBasePrepareService.clearDataBaseEntries();
+        
     }
 
     @AfterAll
@@ -49,17 +53,22 @@ public class ParkingDataBaseIT {
 
     @Test
     public void testParkingACar(){
+    	
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         parkingService.processIncomingVehicle();
         //TODO: check that a ticket is actualy saved in DB and Parking table is updated with availability
+        
     }
 
     @Test
     public void testParkingLotExit(){
+    	
         testParkingACar();
+        
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         parkingService.processExitingVehicle();
         //TODO: check that the fare generated and out time are populated correctly in the database
+        
     }
-
+    
 }
