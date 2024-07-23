@@ -13,11 +13,11 @@ public class FareCalculatorService {
             
         }
 
-        int inHour = ticket.getInTime().getHours();
-        int outHour = ticket.getOutTime().getHours();
+        double inTime = ticket.getInTime().getTime();
+        double outTime = ticket.getOutTime().getTime();
 
-        //TODO: Some tests are failing here. Need to check if this logic is correct
-        int duration = outHour - inHour;
+        double duration = outTime - inTime;
+        duration = duration / 3600000; //Convertion milliseconde en heure
 
         switch (ticket.getParkingSpot().getParkingType()){
         
