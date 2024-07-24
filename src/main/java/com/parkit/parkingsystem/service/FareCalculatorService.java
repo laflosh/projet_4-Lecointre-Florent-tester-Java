@@ -48,5 +48,10 @@ public class FareCalculatorService {
         }
         
     }
+
+	public void calculateFare(Ticket ticket, boolean discountTicket) {
+		// TODO Auto-generated method stub
+		
+	}
     
 }
