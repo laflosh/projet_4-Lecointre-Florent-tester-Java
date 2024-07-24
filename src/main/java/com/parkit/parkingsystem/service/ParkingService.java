@@ -38,6 +38,13 @@ public class ParkingService {
             if(parkingSpot !=null && parkingSpot.getId() > 0){
             	
                 String vehicleRegNumber = getVehichleRegNumber();
+                int nbTickets = ticketDAO.getNbTicket(vehicleRegNumber);
+                
+                if(nbTickets >= 1) {
+                	
+                    System.out.println("Welcome back! As a regular user of our parking lot, you'll receive a 5% discount.");
+                	
+                }
                 
                 parkingSpot.setAvailable(false);
                 parkingSpotDAO.updateParking(parkingSpot);//allot this parking space and mark it's availability as false
@@ -65,6 +72,7 @@ public class ParkingService {
             logger.error("Unable to process incoming vehicle",e);
             
         }
+        
     }
 
     private String getVehichleRegNumber() throws Exception {
@@ -148,11 +156,20 @@ public class ParkingService {
         	
             String vehicleRegNumber = getVehichleRegNumber();
             Ticket ticket = ticketDAO.getTicket(vehicleRegNumber);
+            int nbTickets = ticketDAO.getNbTicket(vehicleRegNumber);
             Date outTime = new Date();
             
             ticket.setOutTime(outTime);
             
-            fareCalculatorService.calculateFare(ticket);
+            if(nbTickets >= 2) {
+            	
+            	fareCalculatorService.calculateFare(ticket, true);
+            	
+            } else {
+            	
+            	fareCalculatorService.calculateFare(ticket);
+            	
+            }
             
             if(ticketDAO.updateTicket(ticket)) {
             	
@@ -187,20 +204,6 @@ public class ParkingService {
             
         }
         
-    }
-    
-    public void nbTickets() {
-    	
-    	try {
-            String vehicleRegNumber = getVehichleRegNumber();
-            int nbTickets = ticketDAO.getNbTicket(vehicleRegNumber);
-            
-            System.out.println(nbTickets);
-            
-    	} catch(Exception e) {
-    		
-    	}
-    	
     }
     
 }
