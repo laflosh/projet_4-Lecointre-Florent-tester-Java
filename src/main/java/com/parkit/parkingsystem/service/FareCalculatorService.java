@@ -5,7 +5,7 @@ import com.parkit.parkingsystem.model.Ticket;
 
 public class FareCalculatorService {
 
-    public void calculateFare(Ticket ticket){
+    public void calculateFare(Ticket ticket, boolean discountTicket){
     	
         if( (ticket.getOutTime() == null) || (ticket.getOutTime().before(ticket.getInTime())) ){
         	
@@ -29,15 +29,33 @@ public class FareCalculatorService {
             
             case CAR: {
             	
-                ticket.setPrice(duration * Fare.CAR_RATE_PER_HOUR);
-                break;
-                
+            	if(discountTicket == true) {
+            		
+            		ticket.setPrice(duration * (0.95 * Fare.CAR_RATE_PER_HOUR));
+            		break;
+            		
+            	} else {
+
+                    ticket.setPrice(duration * Fare.CAR_RATE_PER_HOUR);
+                    break;
+            		
+            	}            	
+
             }
             
             case BIKE: {
             	
-                ticket.setPrice(duration * Fare.BIKE_RATE_PER_HOUR);
-                break;
+            	if(discountTicket == true) {
+            		
+            		ticket.setPrice(duration * (0.95 * Fare.BIKE_RATE_PER_HOUR));
+            		break;
+            		
+            	} else {
+            	
+                    ticket.setPrice(duration * Fare.BIKE_RATE_PER_HOUR);
+                    break;
+            		
+            	}
                 
             }
             
@@ -49,8 +67,9 @@ public class FareCalculatorService {
         
     }
 
-	public void calculateFare(Ticket ticket, boolean discountTicket) {
-		// TODO Auto-generated method stub
+	public void calculateFare(Ticket ticket) {
+		
+		calculateFare(ticket, false);
 		
 	}
     
