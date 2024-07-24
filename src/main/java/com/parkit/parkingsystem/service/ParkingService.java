@@ -189,4 +189,18 @@ public class ParkingService {
         
     }
     
+    public void nbTickets() {
+    	
+    	try {
+            String vehicleRegNumber = getVehichleRegNumber();
+            int nbTickets = ticketDAO.getNbTicket(vehicleRegNumber);
+            
+            System.out.println(nbTickets);
+            
+    	} catch(Exception e) {
+    		
+    	}
+    	
+    }
+    
 }
