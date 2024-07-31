@@ -73,6 +73,19 @@ public class ParkingServiceTest {
         
     }
     
-
+    @Test
+    public void testProcessIncomingVehicle() {
+    	
+    	when(inputReaderUtil.readSelection()).thenReturn(1);
+    	//when(parkingSpotDAO.getNextAvailableSlot("CAR").thenReturn(1);
+    	when(ticketDAO.getNbTicket("ABCDEF")).thenReturn(1);
+    	when(ticketDAO.saveTicket(any(Ticket.class))).thenReturn(true);
+    	
+    	parkingService.processIncomingVehicle();
+    	
+        verify(parkingSpotDAO, Mockito.times(1)).updateParking(any(ParkingSpot.class));
+        verify(ticketDAO, Mockito.times(1)).getNbTicket(any());
+    	
+    }
 
 }
