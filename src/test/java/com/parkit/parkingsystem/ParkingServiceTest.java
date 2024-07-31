@@ -18,6 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -38,7 +39,7 @@ public class ParkingServiceTest {
     	
         try {
         	
-            when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
+        	lenient().when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
 
             ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR,false);
             ticket = new Ticket();
@@ -50,7 +51,7 @@ public class ParkingServiceTest {
             lenient().when(ticketDAO.getTicket(anyString())).thenReturn(ticket);
             lenient().when(ticketDAO.updateTicket(any(Ticket.class))).thenReturn(true);
 
-            when(parkingSpotDAO.updateParking(any(ParkingSpot.class))).thenReturn(true);
+            lenient().when(parkingSpotDAO.updateParking(any(ParkingSpot.class))).thenReturn(true);
 
             parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
             
@@ -90,6 +91,23 @@ public class ParkingServiceTest {
         verify(parkingSpotDAO, Mockito.times(1)).updateParking(any(ParkingSpot.class));
         verify(ticketDAO, Mockito.times(1)).getNbTicket(any());
         
+    }
+    
+    @Test
+    public void processExitingVehicleTestUnableUpdate(){
+    	try {
+    		
+        	when(ticketDAO.updateTicket(any(Ticket.class)))
+    		.thenThrow(Exception.class);
+        	
+        	parkingService.processExitingVehicle();
+    		
+    	}catch(Exception e) {
+    		
+    		assertTrue(e instanceof Exception);
+    		
+    	}
+    	
     }
     
     @Test
