@@ -55,7 +55,9 @@ public class Ticket {
 
     public void setPrice(double price) {
     	
-        this.price = price;
+    	double scale = Math.pow(10, 3);
+    	double roundPrice = Math.round(price * scale) / scale; 
+        this.price = roundPrice;
         
     }
 

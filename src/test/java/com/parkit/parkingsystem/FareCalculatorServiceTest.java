@@ -192,7 +192,7 @@ public class FareCalculatorServiceTest {
     	ticket.setParkingSpot(parkingSpot);
     	fareCalculatorService.calculateFare(ticket, true);
     	
-    	assertEquals(ticket.getPrice(), (0.95 * Fare.CAR_RATE_PER_HOUR));
+    	assertEquals(ticket.getPrice(), Math.round((0.95 * Fare.CAR_RATE_PER_HOUR) * Math.pow(10, 3)) / Math.pow(10, 3));
     	
     }
     
@@ -210,7 +210,7 @@ public class FareCalculatorServiceTest {
     	ticket.setParkingSpot(parkingSpot);
     	fareCalculatorService.calculateFare(ticket, true);
     	
-    	assertEquals(ticket.getPrice(), (0.95 * Fare.BIKE_RATE_PER_HOUR));
+    	assertEquals(ticket.getPrice(), Math.round((0.95 * Fare.BIKE_RATE_PER_HOUR) * Math.pow(10, 3)) / Math.pow(10, 3));
     	
     }
 

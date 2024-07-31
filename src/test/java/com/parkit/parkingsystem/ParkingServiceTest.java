@@ -7,6 +7,7 @@ import com.parkit.parkingsystem.model.ParkingSpot;
 import com.parkit.parkingsystem.model.Ticket;
 import com.parkit.parkingsystem.service.ParkingService;
 import com.parkit.parkingsystem.util.InputReaderUtil;
+import com.parkit.parkingsystem.constants.Fare;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,12 +17,14 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Date;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class ParkingServiceTest {
 
     private static ParkingService parkingService;
+    private Ticket ticket;
 
     @Mock
     private static InputReaderUtil inputReaderUtil;
@@ -38,7 +41,7 @@ public class ParkingServiceTest {
             when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
 
             ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR,false);
-            Ticket ticket = new Ticket();
+            ticket = new Ticket();
             
             ticket.setInTime(new Date(System.currentTimeMillis() - (60*60*1000)));
             ticket.setParkingSpot(parkingSpot);
@@ -62,11 +65,13 @@ public class ParkingServiceTest {
     }
 
     @Test
-    public void processExitingVehicleTest(){
+    public void processExitingVehicleTestWithoutDiscount(){
     	
-    	when(ticketDAO.getNbTicket("ABCDEF")).thenReturn(2);
+    	when(ticketDAO.getNbTicket("ABCDEF")).thenReturn(1);
     	
         parkingService.processExitingVehicle();
+        
+        assertEquals(ticket.getPrice(), Fare.CAR_RATE_PER_HOUR);
         
         verify(parkingSpotDAO, Mockito.times(1)).updateParking(any(ParkingSpot.class));
         verify(ticketDAO, Mockito.times(1)).getNbTicket(any());
@@ -74,10 +79,24 @@ public class ParkingServiceTest {
     }
     
     @Test
+    public void processExitingVehicleTestWithDiscount(){
+    	
+    	when(ticketDAO.getNbTicket("ABCDEF")).thenReturn(3);
+    	
+        parkingService.processExitingVehicle();
+        
+        assertEquals(ticket.getPrice(), Math.round((0.95 * Fare.CAR_RATE_PER_HOUR) * Math.pow(10, 3)) / Math.pow(10, 3));
+        
+        verify(parkingSpotDAO, Mockito.times(1)).updateParking(any(ParkingSpot.class));
+        verify(ticketDAO, Mockito.times(1)).getNbTicket(any());
+        
+    }
+    
+    
     public void testProcessIncomingVehicle() {
     	
     	when(inputReaderUtil.readSelection()).thenReturn(1);
-    	//when(parkingSpotDAO.getNextAvailableSlot("CAR").thenReturn(1);
+    	when(parkingSpotDAO.getNextAvailableSlot("CAR").thenReturn(1);
     	when(ticketDAO.getNbTicket("ABCDEF")).thenReturn(1);
     	when(ticketDAO.saveTicket(any(Ticket.class))).thenReturn(true);
     	
