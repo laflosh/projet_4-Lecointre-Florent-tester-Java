@@ -47,8 +47,8 @@ public class ParkingServiceTest {
             ticket.setParkingSpot(parkingSpot);
             ticket.setVehicleRegNumber("ABCDEF");
             
-            when(ticketDAO.getTicket(anyString())).thenReturn(ticket);
-            when(ticketDAO.updateTicket(any(Ticket.class))).thenReturn(true);
+            lenient().when(ticketDAO.getTicket(anyString())).thenReturn(ticket);
+            lenient().when(ticketDAO.updateTicket(any(Ticket.class))).thenReturn(true);
 
             when(parkingSpotDAO.updateParking(any(ParkingSpot.class))).thenReturn(true);
 
@@ -92,17 +92,30 @@ public class ParkingServiceTest {
         
     }
     
-    
-    public void testProcessIncomingVehicle() {
+    @Test
+    public void testProcessIncomingVehicleFristEntrie() {
     	
     	when(inputReaderUtil.readSelection()).thenReturn(1);
-    	when(parkingSpotDAO.getNextAvailableSlot("CAR").thenReturn(1);
+    	when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(1);
     	when(ticketDAO.getNbTicket("ABCDEF")).thenReturn(1);
-    	when(ticketDAO.saveTicket(any(Ticket.class))).thenReturn(true);
     	
     	parkingService.processIncomingVehicle();
     	
-        verify(parkingSpotDAO, Mockito.times(1)).updateParking(any(ParkingSpot.class));
+        verify(parkingSpotDAO, Mockito.times(1)).getNextAvailableSlot(any(ParkingType.class));
+        verify(ticketDAO, Mockito.times(1)).getNbTicket(any());
+    	
+    }
+    
+    @Test
+    public void testProcessIncomingVehicleSeveralEntries() {
+    	
+    	when(inputReaderUtil.readSelection()).thenReturn(1);
+    	when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(1);
+    	when(ticketDAO.getNbTicket("ABCDEF")).thenReturn(3);
+    	
+    	parkingService.processIncomingVehicle();
+    	
+        verify(parkingSpotDAO, Mockito.times(1)).getNextAvailableSlot(any(ParkingType.class));
         verify(ticketDAO, Mockito.times(1)).getNbTicket(any());
     	
     }
