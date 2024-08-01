@@ -94,6 +94,21 @@ public class ParkingServiceTest {
     }
     
     @Test
+    public void processExitingVehicleTestWithFreeExit(){
+    	
+    	ticket.setInTime(new Date(System.currentTimeMillis() - (20 * 60 * 1000)));
+    	when(ticketDAO.getNbTicket("ABCDEF")).thenReturn(1);
+    	
+        parkingService.processExitingVehicle();
+        
+        assertEquals(ticket.getPrice(), 0);
+        
+        verify(parkingSpotDAO, Mockito.times(1)).updateParking(any(ParkingSpot.class));
+        verify(ticketDAO, Mockito.times(1)).getNbTicket(any());
+        
+    }
+    
+    @Test
     public void processExitingVehicleTestUnableUpdate(){
     	try {
     		
