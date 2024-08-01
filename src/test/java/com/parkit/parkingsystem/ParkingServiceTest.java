@@ -41,7 +41,7 @@ public class ParkingServiceTest {
         	
         	lenient().when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
 
-            ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR,false);
+        	ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR,false);
             ticket = new Ticket();
             
             ticket.setInTime(new Date(System.currentTimeMillis() - (60*60*1000)));
@@ -135,6 +135,19 @@ public class ParkingServiceTest {
     	
         verify(parkingSpotDAO, Mockito.times(1)).getNextAvailableSlot(any(ParkingType.class));
         verify(ticketDAO, Mockito.times(1)).getNbTicket(any());
+    	
+    }
+    
+    @Test
+    public void testGetNextParkingNumberIfAvailable() {
+
+    	when(inputReaderUtil.readSelection()).thenReturn(1);
+    	when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(1);
+    	
+    	ParkingSpot parkingSpotTest = parkingService.getNextParkingNumberIfAvailable();
+    	
+    	assertEquals(parkingSpotTest.getId(), 1);
+    	assertEquals(parkingSpotTest.isAvailable(), true);
     	
     }
 
