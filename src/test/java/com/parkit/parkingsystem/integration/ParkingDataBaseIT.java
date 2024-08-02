@@ -70,7 +70,8 @@ public class ParkingDataBaseIT {
         //TODO: check that a ticket is actualy saved in DB and Parking table is updated with availability
         
         assertEquals(parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR), 2); //If the second place is return so the first place is taken by the vehicle
-        assertNotNull(ticketDAO.getTicket("ABCDEF"));
+        Ticket ticketTest = ticketDAO.getTicket("ABCDEF");
+        assertNotNull(ticketTest);
         
     }
 
@@ -94,13 +95,11 @@ public class ParkingDataBaseIT {
         parkingService.processExitingVehicle();
         
         //TODO: check that the fare generated and out time are populated correctly in the database
+        Ticket ticketTest = ticketDAO.getTicket("ABCDEF");
         
-        //assertNotNull(ticketDAO.getTicket("ABCDEF"));
-        
-        //Ticket ticketTest = ticketDAO.getTicket("ABCDEF");
-        
-        //assertNotNull(ticketTest.getOutTime());
-        //assertEquals(ticketTest.getPrice(), 0); //Vehicle stay less than 30min so it's free time
+        assertNotNull(ticketTest);
+        assertNotNull(ticketTest.getOutTime());
+        assertEquals(ticketTest.getPrice(), 0); //Vehicle stay less than 30min so it's free time
         
     }
     
@@ -108,7 +107,6 @@ public class ParkingDataBaseIT {
     public void testParkingLotExitRecurringUser(){
     	
     	testParkingLotExit();
-    	
     	testParkingACar();
     	
         try {
