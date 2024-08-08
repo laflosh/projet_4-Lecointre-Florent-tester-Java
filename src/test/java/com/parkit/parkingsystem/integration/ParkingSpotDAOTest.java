@@ -61,6 +61,23 @@ class ParkingSpotDAOTest {
 	}
 	
 	@Test
+	public void testWhenNoSpotIsFindThenThrowAException() {
+		
+		try {
+		
+		parkingType = null;
+		
+		parkingSpotDAO.getNextAvailableSlot(parkingType);
+		
+		} catch (Exception e) {
+			
+			assertTrue(e instanceof Exception);
+			
+		}
+		
+	}
+	
+	@Test
 	public void testForUpdatingTheDataTableOfTheParking() {
 		
 		ParkingSpot parkingSpotTest = new ParkingSpot(1, ParkingType.CAR, false);
