@@ -65,5 +65,20 @@ class TicketDAOTest {
         assertFalse(responseTest);
 		
 	}
+	
+	@Test
+	public void testForGettingASavedTicket() {
+		
+		testForSavingATicketInTheDataBase();
+		
+		Ticket savedTicket = ticketDAO.getTicket("ABCDEF");
+		ParkingSpot savedParkingSpot = savedTicket.getParkingSpot();
+		
+		assertEquals(savedTicket.getId(), 1);
+		assertEquals(savedParkingSpot.getId(), 1);
+		
+	}
+	
+	
 
 }
