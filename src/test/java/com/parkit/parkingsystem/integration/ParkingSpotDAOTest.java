@@ -60,6 +60,15 @@ class ParkingSpotDAOTest {
 		
 	}
 	
-
+	@Test
+	public void testForUpdatingTheDataTableOfTheParking() {
+		
+		ParkingSpot parkingSpotTest = new ParkingSpot(1, ParkingType.CAR, false);
+		
+		boolean responseTest = parkingSpotDAO.updateParking(parkingSpotTest);
+		
+		assertTrue(responseTest);
+		
+	}
 
 }
