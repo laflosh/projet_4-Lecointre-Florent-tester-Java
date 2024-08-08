@@ -67,6 +67,23 @@ class TicketDAOTest {
 	}
 	
 	@Test
+	public void testForNotSavingATicketInTheDataBaseThrowAException() {
+		
+		try {
+			
+		Ticket ticketTest = null;
+		
+		ticketDAO.saveTicket(ticketTest);
+		
+		} catch (Exception e) {
+			
+			assertTrue(e instanceof Exception);
+			
+		}
+		
+	}
+	
+	@Test
 	public void testForGettingASavedTicket() {
 		
 		testForSavingATicketInTheDataBase();
@@ -77,6 +94,22 @@ class TicketDAOTest {
 		assertEquals(savedTicket.getId(), 1);
 		assertEquals(savedParkingSpot.getId(), 1);
 		
+	}
+	
+	@Test
+	public void testForGettingASavedTicketThrowAExceptionWithWrongRegNumber() {
+		
+		try {
+			
+			testForSavingATicketInTheDataBase();
+			
+			ticketDAO.getTicket("AAA");
+			
+		} catch (Exception e) {
+			
+			assertTrue(e instanceof Exception);
+			
+		}
 	}
 	
 	@Test
@@ -104,6 +137,23 @@ class TicketDAOTest {
 	}
 	
 	@Test
+	public void testForUpdatingATicketThrowException() {
+		
+		try {
+			
+			Ticket ticketTest = null;
+			
+			ticketDAO.updateTicket(ticketTest);
+			
+		}catch(Exception e) {
+			
+			assertTrue(e instanceof Exception);
+			
+		}
+		
+	}
+	
+	@Test
 	public void testForGettingHowManyTicketAreSavedInDataBase() {
 		
 		for(int i = 0; i < 3; i++) { //Saved 3 tickets
@@ -115,6 +165,21 @@ class TicketDAOTest {
 		int nbTicketTest = ticketDAO.getNbTicket("ABCDEF");
 		
 		assertEquals(nbTicketTest, 3);
+		
+	}
+	
+	@Test
+	public void testForGettingHowManyTicketAreSavedInDataBaseThrowException() {
+		
+		try {
+			
+			ticketDAO.getNbTicket("AAA");
+			
+		} catch(Exception e) {
+			
+			assertTrue(e instanceof Exception);
+			
+		}
 		
 	}
 
