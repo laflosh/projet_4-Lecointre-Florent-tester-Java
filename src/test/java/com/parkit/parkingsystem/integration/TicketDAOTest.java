@@ -79,6 +79,19 @@ class TicketDAOTest {
 		
 	}
 	
-	
+	@Test
+	public void testForGettingHowManyTicketAreSavedInDataBase() {
+		
+		for(int i = 0; i < 3; i++) { //Saved 3 tickets
+		
+			testForSavingATicketInTheDataBase();
+			
+		}
+		
+		int nbTicketTest = ticketDAO.getNbTicket("ABCDEF");
+		
+		assertEquals(nbTicketTest, 3);
+		
+	}
 
 }
