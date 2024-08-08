@@ -87,5 +87,22 @@ class ParkingSpotDAOTest {
 		assertTrue(responseTest);
 		
 	}
+	
+	@Test
+	public void testWhenAExceptionIsThrowForTheUpdate() {
+		
+		try {
+		
+			ParkingSpot parkingSpotTest = null;
+		
+			parkingSpotDAO.updateParking(parkingSpotTest);
+		
+		} catch (Exception e) {
+			
+			assertTrue(e instanceof Exception);
+			
+		}
+		
+	}
 
 }
