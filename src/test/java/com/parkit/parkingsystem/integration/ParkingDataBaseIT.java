@@ -5,6 +5,7 @@ import com.parkit.parkingsystem.dao.ParkingSpotDAO;
 import com.parkit.parkingsystem.dao.TicketDAO;
 import com.parkit.parkingsystem.integration.config.DataBaseTestConfig;
 import com.parkit.parkingsystem.integration.service.DataBasePrepareService;
+import com.parkit.parkingsystem.model.ParkingSpot;
 import com.parkit.parkingsystem.model.Ticket;
 import com.parkit.parkingsystem.service.ParkingService;
 import com.parkit.parkingsystem.util.InputReaderUtil;
@@ -56,7 +57,7 @@ public class ParkingDataBaseIT {
     @AfterAll
     private static void tearDown(){
 
-    	//dataBasePrepareService.clearDataBaseEntries();
+    	dataBasePrepareService.clearDataBaseEntries();
     	
     }
 
@@ -69,9 +70,10 @@ public class ParkingDataBaseIT {
         
         //TODO: check that a ticket is actualy saved in DB and Parking table is updated with availability
         
-        assertEquals(parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR), 2); //If the second place is return so the first place is taken by the vehicle
         Ticket ticketTest = ticketDAO.getTicket("ABCDEF");
-        assertNotNull(ticketTest);
+        ParkingSpot parkingSpotTest = ticketTest.getParkingSpot();
+        assertNotNull(ticketTest.getInTime());
+        assertEquals(parkingSpotTest.getId(), 1);
         
     }
 
@@ -123,7 +125,7 @@ public class ParkingDataBaseIT {
     	
     	parkingService.processExitingVehicle();
     	
-    	assertEquals(ticketDAO.getNbTicket("ABCDEF"), 2); //If equal to 2 thier will be the 5% reduc
+    	assertEquals(ticketDAO.getNbTicket("ABCDEF"), 2); //If equal to 2 their will be the 5% reduc
     	
     }
     
