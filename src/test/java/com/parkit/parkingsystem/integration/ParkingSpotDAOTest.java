@@ -1,14 +1,11 @@
 package com.parkit.parkingsystem.integration;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
-
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.parkit.parkingsystem.constants.ParkingType;
@@ -45,7 +42,7 @@ class ParkingSpotDAOTest {
     @AfterAll
     private static void tearDown(){
 
-    	//dataBasePrepareService.clearDataBaseEntries();
+    	dataBasePrepareService.clearDataBaseEntries();
     	
     }
 	
