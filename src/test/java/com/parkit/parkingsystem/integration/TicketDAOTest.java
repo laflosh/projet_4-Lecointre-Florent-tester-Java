@@ -52,7 +52,7 @@ class TicketDAOTest {
 		Ticket ticketTest = new Ticket();
 		ParkingSpot parkingSpotTest = new ParkingSpot(1, ParkingType.CAR, false);
         Date inTime = new Date();
-        inTime.setTime( System.currentTimeMillis() - (  60 * 60 * 1000) );
+        inTime.setTime( System.currentTimeMillis());
         
         ticketTest.setParkingSpot(parkingSpotTest);
         ticketTest.setVehicleRegNumber("ABCDEF");
@@ -76,6 +76,30 @@ class TicketDAOTest {
 		
 		assertEquals(savedTicket.getId(), 1);
 		assertEquals(savedParkingSpot.getId(), 1);
+		
+	}
+	
+	@Test
+	public void testForUpdatingATicketSavedInDatabase() {
+		
+		Ticket ticketTest = new Ticket();
+		ParkingSpot parkingSpotTest = new ParkingSpot(1, ParkingType.CAR, false);
+        Date inTime = new Date();
+        inTime.setTime( System.currentTimeMillis() - (  60 * 60 * 1000) );
+        ticketTest.setParkingSpot(parkingSpotTest);
+        ticketTest.setVehicleRegNumber("ABCDEF");
+        ticketTest.setPrice(0);
+        ticketTest.setInTime(inTime);
+        ticketTest.setOutTime(null);
+        ticketDAO.saveTicket(ticketTest);
+        Ticket savedTicket = ticketDAO.getTicket("ABCDEF");
+        
+        Date outTime = new Date();
+        savedTicket.setOutTime(outTime);
+        savedTicket.setPrice(1.5);
+        boolean responseTest = ticketDAO.updateTicket(savedTicket);
+        
+        assertTrue(responseTest);
 		
 	}
 	
