@@ -58,19 +58,13 @@ class ParkingSpotDAOTest {
 	}
 	
 	@Test
-	public void testWhenNoSpotIsFindThenThrowAException() {
-		
-		try {
+	public void testWhenNoSpotIsFindThenReturn_minusOne() {
 		
 		parkingType = null;
 		
-		parkingSpotDAO.getNextAvailableSlot(parkingType);
+		int result = parkingSpotDAO.getNextAvailableSlot(parkingType);
 		
-		} catch (Exception e) {
-			
-			assertTrue(e instanceof Exception);
-			
-		}
+		assertEquals(result, -1);
 		
 	}
 	
@@ -86,19 +80,16 @@ class ParkingSpotDAOTest {
 	}
 	
 	@Test
-	public void testWhenAExceptionIsThrowForTheUpdate() {
+	public void testResultFalseWhenUpdateFail() {
 		
-		try {
+
 		
-			ParkingSpot parkingSpotTest = null;
+		ParkingSpot parkingSpotTest = null;
+	
+		boolean result = parkingSpotDAO.updateParking(parkingSpotTest);
 		
-			parkingSpotDAO.updateParking(parkingSpotTest);
-		
-		} catch (Exception e) {
-			
-			assertTrue(e instanceof Exception);
-			
-		}
+		assertFalse(result);
+	
 		
 	}
 

@@ -18,6 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.when;
 
 import java.util.concurrent.TimeUnit;
@@ -67,11 +68,16 @@ public class ParkingDataBaseIT {
         
         parkingService.processIncomingVehicle();
         
-        //TODO: check that a ticket is actualy saved in DB and Parking table is updated with availability
+        //Check that a ticket is actualy saved in DB and 
         
         Ticket ticketTest = ticketDAO.getTicket("ABCDEF");
         ParkingSpot parkingSpotTest = ticketTest.getParkingSpot();
+        
+        assertNotNull(ticketTest);
         assertNotNull(ticketTest.getInTime());
+        assertNull(ticketTest.getOutTime());
+        assertEquals(ticketTest.getPrice(), 0);
+        //Parking table is updated with availability
         assertEquals(parkingSpotTest.getId(), 1);
         
     }
@@ -95,12 +101,14 @@ public class ParkingDataBaseIT {
         
         parkingService.processExitingVehicle();
         
-        //TODO: check that the fare generated and out time are populated correctly in the database
+        //Check that the fare generated and out time are populated correctly in the database
         Ticket ticketTest = ticketDAO.getTicket("ABCDEF");
         
         assertNotNull(ticketTest);
         assertNotNull(ticketTest.getOutTime());
-        assertEquals(ticketTest.getPrice(), 0); //Vehicle stay less than 30min so it's free time
+        
+        //Vehicle stay less than 30min so it's free time
+        assertEquals(ticketTest.getPrice(), 0); 
         
     }
     
@@ -124,7 +132,8 @@ public class ParkingDataBaseIT {
     	
     	parkingService.processExitingVehicle();
     	
-    	assertEquals(ticketDAO.getNbTicket("ABCDEF"), 2); //If equal to 2 their will be the 5% reduc
+    	//If equal to 2 their will be the 5% reduc
+    	assertEquals(ticketDAO.getNbTicket("ABCDEF"), 2); 
     	
     }
     

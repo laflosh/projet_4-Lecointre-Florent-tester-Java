@@ -42,7 +42,7 @@ class TicketDAOTest {
     @AfterAll
     private static void tearDown(){
 
-    	dataBasePrepareService.clearDataBaseEntries();
+    	//dataBasePrepareService.clearDataBaseEntries();
     	
     }
 	
@@ -62,24 +62,18 @@ class TicketDAOTest {
         
         boolean responseTest = ticketDAO.saveTicket(ticketTest);
         
-        assertFalse(responseTest);
+        assertTrue(responseTest);
 		
 	}
 	
 	@Test
 	public void testForNotSavingATicketInTheDataBaseThrowAException() {
-		
-		try {
 			
 		Ticket ticketTest = null;
 		
-		ticketDAO.saveTicket(ticketTest);
+		boolean result = ticketDAO.saveTicket(ticketTest);
 		
-		} catch (Exception e) {
-			
-			assertTrue(e instanceof Exception);
-			
-		}
+		assertFalse(result);
 		
 	}
 	
@@ -133,25 +127,18 @@ class TicketDAOTest {
 	
 	@Test
 	public void testForUpdatingATicketThrowException() {
+			
+		Ticket ticketTest = null;
 		
-		try {
-			
-			Ticket ticketTest = null;
-			
-			ticketDAO.updateTicket(ticketTest);
-			
-		}catch(Exception e) {
-			
-			assertTrue(e instanceof Exception);
-			
-		}
+		assertFalse(ticketDAO.updateTicket(ticketTest));
 		
 	}
 	
 	@Test
 	public void testForGettingHowManyTicketAreSavedInDataBase() {
 		
-		for(int i = 0; i < 3; i++) { //Saved 3 tickets
+		//Saved 3 tickets
+		for(int i = 0; i < 3; i++) { 
 		
 			testForSavingATicketInTheDataBase();
 			

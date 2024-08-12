@@ -42,16 +42,18 @@ public class TicketDAO {
             
             ps.setTimestamp(5, (ticket.getOutTime() == null)?null: (new Timestamp(ticket.getOutTime().getTime())) );
             
-            return ps.execute();
+            int result = ps.executeUpdate();
+            
+            return result == 1;
             
         }catch (Exception ex){
         	
             logger.error("Error fetching next available slot",ex);
+            return false;
             
         }finally {
         	
             dataBaseConfig.closeConnection(con);
-            return false;
             
         }
     }
@@ -120,14 +122,13 @@ public class TicketDAO {
         }catch (Exception ex){
         	
             logger.error("Error saving ticket info",ex);
+            return false;
             
         }finally {
         	
             dataBaseConfig.closeConnection(con);
             
         }
-        
-        return false;
         
     }
     
