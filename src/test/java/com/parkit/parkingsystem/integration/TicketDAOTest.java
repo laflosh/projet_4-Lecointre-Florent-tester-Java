@@ -42,7 +42,7 @@ class TicketDAOTest {
     @AfterAll
     private static void tearDown(){
 
-    	//dataBasePrepareService.clearDataBaseEntries();
+    	dataBasePrepareService.clearDataBaseEntries();
     	
     }
 	
@@ -97,19 +97,14 @@ class TicketDAOTest {
 	}
 	
 	@Test
-	public void testForGettingASavedTicketThrowAExceptionWithWrongRegNumber() {
-		
-		try {
+	public void testForGettingASavedTicketShouldReturnNullWithWrongRegNumber() {
 			
 			testForSavingATicketInTheDataBase();
 			
-			ticketDAO.getTicket("AAA");
+			Ticket ticketTest = ticketDAO.getTicket("AAA");
 			
-		} catch (Exception e) {
+			assertNull(ticketTest);
 			
-			assertTrue(e instanceof Exception);
-			
-		}
 	}
 	
 	@Test
@@ -169,17 +164,13 @@ class TicketDAOTest {
 	}
 	
 	@Test
-	public void testForGettingHowManyTicketAreSavedInDataBaseThrowException() {
+	public void testForGettingHowManyTicketAreSavedInDataBaseShouldReturn0WithWrongRegNumber() {
 		
-		try {
-			
-			ticketDAO.getNbTicket("AAA");
-			
-		} catch(Exception e) {
-			
-			assertTrue(e instanceof Exception);
-			
-		}
+		testForSavingATicketInTheDataBase();
+		
+		int ticketTestnb = ticketDAO.getNbTicket("AAA");
+		
+		assertEquals(ticketTestnb, 0);
 		
 	}
 
