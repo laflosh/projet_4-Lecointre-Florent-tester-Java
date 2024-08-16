@@ -1,4 +1,4 @@
-Rapport de test Jacoco présent dans le dossier "site"
+Rapport de test Jacoco et Surefire en fort web présent dans le dossier "site"
 
 # Parking System
 A command line app for managing the parking system. 
